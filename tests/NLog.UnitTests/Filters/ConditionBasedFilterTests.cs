@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Filters
 {
     using NLog;
@@ -38,6 +40,10 @@ namespace NLog.UnitTests.Filters
 
     public class ConditionBasedFilterTests : NLogTestBase
     {
+        public ConditionBasedFilterTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void WhenTest()
         {

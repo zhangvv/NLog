@@ -34,6 +34,7 @@
 using System;
 using System.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 #if !SILVERLIGHT
 
@@ -45,6 +46,10 @@ namespace NLog.UnitTests.LayoutRenderers
     {
         private int id = AppDomain.CurrentDomain.Id;
         private string friendlyname = AppDomain.CurrentDomain.FriendlyName;
+
+        public AppDomainLayoutRendererTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         [Fact]
         public void AppDomainTest()

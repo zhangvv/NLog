@@ -31,12 +31,18 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Config
 {
     using Xunit;
 
     public class CaseSensitivityTests : NLogTestBase
     {
+        public CaseSensitivityTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void LowerCaseTest()
         {

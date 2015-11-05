@@ -32,6 +32,7 @@
 // 
 
 using System.Diagnostics;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Targets.Wrappers
 {
@@ -44,6 +45,10 @@ namespace NLog.UnitTests.Targets.Wrappers
 
     public class BufferingTargetWrapperTests : NLogTestBase
     {
+        public BufferingTargetWrapperTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void BufferingTargetWrapperSyncTest1()
         {

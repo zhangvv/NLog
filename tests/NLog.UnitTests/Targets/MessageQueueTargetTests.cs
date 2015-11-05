@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT && !MONO
 
 namespace NLog.UnitTests.Targets
@@ -42,6 +44,10 @@ namespace NLog.UnitTests.Targets
 
     public class MessageQueueTargetTests : NLogTestBase
     {
+        public MessageQueueTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void QueueExists_Write_MessageIsWritten()
         {

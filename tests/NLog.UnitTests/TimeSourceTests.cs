@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests
 {
     using System;
@@ -39,6 +41,10 @@ namespace NLog.UnitTests
 
     public class TimeSourceTests : NLogTestBase, IDisposable
     {
+        public TimeSourceTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         public void Dispose()
         {
             TimeSource.Current = new FastLocalTimeSource();

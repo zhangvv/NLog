@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests
 {
     using System.Reflection;
@@ -45,6 +47,10 @@ namespace NLog.UnitTests
 
     public class LoggerTests : NLogTestBase
     {
+        public LoggerTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void TraceTest()
         {

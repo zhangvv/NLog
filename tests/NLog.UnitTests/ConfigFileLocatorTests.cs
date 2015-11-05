@@ -32,6 +32,7 @@
 // 
 
 using System.Threading;
+using Xunit.Abstractions;
 
 #if !SILVERLIGHT
 
@@ -45,7 +46,7 @@ namespace NLog.UnitTests
     using Microsoft.CSharp;
     using Xunit;
 
-    public class ConfigFileLocatorTests
+    public class ConfigFileLocatorTests : NLogTestBase
     {
         private string appConfigContents = @"
 <configuration>
@@ -104,7 +105,7 @@ namespace NLog.UnitTests
         private string missingConfigOutput = "--BEGIN--|--END--|";
         private readonly string _tempDirectory;
 
-        public ConfigFileLocatorTests()
+        public ConfigFileLocatorTests(ITestOutputHelper output) : base(output)
         {
             _tempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(_tempDirectory);

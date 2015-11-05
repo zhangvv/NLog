@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NLog.Internal;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Internal
 {
@@ -50,6 +51,10 @@ namespace NLog.UnitTests.Internal
         }
 
         #region tryparse - no ignorecase parameter
+
+        public EnumHelpersTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         [Fact]
         public void EnumParse1()

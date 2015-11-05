@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Internal.FileAppenders
 {
     using System;
@@ -45,6 +47,10 @@ namespace NLog.UnitTests.Internal.FileAppenders
 
     public class FileAppenderCacheTests : NLogTestBase
     {
+        public FileAppenderCacheTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void FileAppenderCache_Empty() 
         {

@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.LayoutRenderers
 {
     using System.Threading;
@@ -43,6 +45,10 @@ namespace NLog.UnitTests.LayoutRenderers
 
     public class Log4JXmlTests : NLogTestBase
     {
+        public Log4JXmlTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void Log4JXmlTest()
         {

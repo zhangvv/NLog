@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Targets.Wrappers
 {
     using System.Threading;
@@ -40,6 +42,10 @@ namespace NLog.UnitTests.Targets.Wrappers
 
     public class AsyncRequestQueueTests : NLogTestBase
 	{
+        public AsyncRequestQueueTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void AsyncRequestQueueWithDiscardBehaviorTest()
         {
@@ -129,7 +135,7 @@ namespace NLog.UnitTests.Targets.Wrappers
                         AsyncLogEventInfo logEvent = LogEventInfo.CreateNullEvent().WithContinuation(ex => { });
                         logEvent.LogEvent.Message = "msg" + i;
                         
-                        // Console.WriteLine("Pushing event {0}", i);
+                        // Output.WriteLine("Pushing event {0}", i);
                         pushingEvent = i;
                         queue.Enqueue(logEvent);
                     }

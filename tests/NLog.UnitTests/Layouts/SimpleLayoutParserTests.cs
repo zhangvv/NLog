@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Layouts
 {
     using NLog.LayoutRenderers;
@@ -41,6 +43,10 @@ namespace NLog.UnitTests.Layouts
 
     public class SimpleLayoutParserTests : NLogTestBase
     {
+        public SimpleLayoutParserTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void SimpleTest()
         {

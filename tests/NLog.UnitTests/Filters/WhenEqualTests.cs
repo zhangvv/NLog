@@ -31,12 +31,18 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Filters
 {
     using Xunit;
 
     public class WhenEqualTests : NLogTestBase
     {
+        public WhenEqualTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void WhenEqualTest()
         {

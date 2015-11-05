@@ -38,11 +38,16 @@ using System.Linq;
 using Xunit;
 using NLog.Common;
 using System.Text;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Common
 {
     public class InternalLoggerTests : NLogTestBase
-    {        
+    {
+        public InternalLoggerTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         /// <summary>
         /// Test the return values of all Is[Level]Enabled() methods.
         /// </summary>
@@ -217,6 +222,8 @@ namespace NLog.UnitTests.Common
             InternalLogger.Log(LogLevel.Info, "III");
 
             Assert.True(consoleOutWriter2.ToString() == expected);
+
+            InternalLogger.LogToConsole = false;
         }
 
         [Fact]

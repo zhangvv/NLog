@@ -47,3 +47,4 @@ using System.Reflection;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 [assembly: AssemblyVersion("1.0.0.0")]
+//note: projects are .Net 4.5 for xUnit

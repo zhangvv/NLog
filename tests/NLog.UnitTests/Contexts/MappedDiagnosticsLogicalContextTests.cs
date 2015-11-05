@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Contexts
 {
     using System;
@@ -38,9 +40,9 @@ namespace NLog.UnitTests.Contexts
     using System.Threading.Tasks;
     using Xunit;
 
-    public class MappedDiagnosticsLogicalContextTests
+    public class MappedDiagnosticsLogicalContextTests : NLogTestBase
     {
-        public MappedDiagnosticsLogicalContextTests()
+        public MappedDiagnosticsLogicalContextTests(ITestOutputHelper output) : base(output)
         {
             MappedDiagnosticsLogicalContext.Clear();
         }
@@ -110,7 +112,7 @@ namespace NLog.UnitTests.Contexts
             const string item = "Item";
             MappedDiagnosticsLogicalContext.Set(key, item);
 
-            Assert.DoesNotThrow(() => MappedDiagnosticsLogicalContext.Set(key, item));
+            MappedDiagnosticsLogicalContext.Set(key, item);
         }
 
         [Fact]
@@ -158,13 +160,13 @@ namespace NLog.UnitTests.Contexts
         public void given_item_does_not_exist_when_removing_item_should_not_throw()
         {
             const string keyForItemThatShouldExist = "Key";
-            Assert.DoesNotThrow(() => MappedDiagnosticsLogicalContext.Remove(keyForItemThatShouldExist));
+            MappedDiagnosticsLogicalContext.Remove(keyForItemThatShouldExist);
         }
 
         [Fact]
         public void given_item_does_not_exist_when_clearing_should_not_throw()
         {
-            Assert.DoesNotThrow(MappedDiagnosticsLogicalContext.Clear);
+            MappedDiagnosticsLogicalContext.Clear();
         }
 
         [Fact]

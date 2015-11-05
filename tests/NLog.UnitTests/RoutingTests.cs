@@ -31,12 +31,18 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests
 {
     using Xunit;
 
     public class RoutingTests : NLogTestBase
     {
+        public RoutingTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void LogThresholdTest()
         {

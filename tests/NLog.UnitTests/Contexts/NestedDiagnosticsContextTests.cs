@@ -32,6 +32,7 @@
 // 
 
 using System.Text;
+using Xunit.Abstractions;
 
 #pragma warning disable 0618
 
@@ -42,8 +43,12 @@ namespace NLog.UnitTests.Contexts
     using System.Threading;
     using Xunit;
 
-    public class NestedDiagnosticsContextTests
+    public class NestedDiagnosticsContextTests : NLogTestBase
     {
+        public NestedDiagnosticsContextTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void NDCTest1()
         {

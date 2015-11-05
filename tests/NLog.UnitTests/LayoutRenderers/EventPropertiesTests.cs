@@ -33,6 +33,7 @@
 
 using System;
 using NLog.Filters;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.LayoutRenderers
 {
@@ -41,6 +42,10 @@ namespace NLog.UnitTests.LayoutRenderers
 
     public class EventPropertiesTests : NLogTestBase
     {
+        public EventPropertiesTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void Test1()
         {

@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Config
 {
     using System.IO;
@@ -41,6 +43,10 @@ namespace NLog.UnitTests.Config
 
     public class RuleConfigurationTests : NLogTestBase
     {
+        public RuleConfigurationTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void NoRulesTest()
         {

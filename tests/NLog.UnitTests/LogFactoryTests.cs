@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 namespace NLog.UnitTests
 {
@@ -46,6 +48,10 @@ namespace NLog.UnitTests
 
     public class LogFactoryTests : NLogTestBase
     {
+        public LogFactoryTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void Flush_DoNotThrowExceptionsAndTimeout_DoesNotThrow()
         {
@@ -119,7 +125,7 @@ namespace NLog.UnitTests
             var logFactory = new LogFactory(loggingConfiguration);
             var differentConfiguration = new LoggingConfiguration();
 
-            Assert.DoesNotThrow(() => logFactory.ReloadConfigOnTimer(differentConfiguration));
+            logFactory.ReloadConfigOnTimer(differentConfiguration);
         }
 
         private class ReloadNullConfiguration : LoggingConfiguration
@@ -137,7 +143,7 @@ namespace NLog.UnitTests
             LogManager.Configuration = loggingConfiguration;
             var logFactory = new LogFactory(loggingConfiguration);
 
-            Assert.DoesNotThrow(() => logFactory.ReloadConfigOnTimer(loggingConfiguration));
+            logFactory.ReloadConfigOnTimer(loggingConfiguration);
         }
 
         [Fact]

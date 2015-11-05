@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.LayoutRenderers.Wrappers
 {
     using NLog;
@@ -39,6 +41,10 @@ namespace NLog.UnitTests.LayoutRenderers.Wrappers
 
     public class PaddingTests : NLogTestBase
     {
+        public PaddingTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void PositivePaddingWithLeftAlign()
         {

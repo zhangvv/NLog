@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests
 {
     using System;
@@ -41,6 +43,10 @@ namespace NLog.UnitTests
 
     public class AsyncHelperTests : NLogTestBase
     {
+        public AsyncHelperTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void OneTimeOnlyTest1()
         {
@@ -460,7 +466,7 @@ namespace NLog.UnitTests
                 AsyncHelpers.ForEachItemInParallel(input, finalContinuation,
                     (i, cont) =>
                         {
-                            Console.WriteLine("Callback on {0}", Thread.CurrentThread.ManagedThreadId);
+                            Output.WriteLine("Callback on {0}", Thread.CurrentThread.ManagedThreadId);
                             lock (input)
                             {
                                 sum += i;
@@ -479,6 +485,7 @@ namespace NLog.UnitTests
                 Assert.NotNull(lastException);
                 Assert.IsType(typeof(InvalidOperationException), lastException);
                 Assert.Equal("Some failure.", lastException.Message);
+                InternalLogger.LogToConsole = false;
             }
         }
 

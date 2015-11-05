@@ -35,6 +35,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using NLog.Targets;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Config
 {
@@ -45,6 +46,10 @@ namespace NLog.UnitTests.Config
 
     public class IncludeTests : NLogTestBase
     {
+        public IncludeTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void IncludeTest()
         {

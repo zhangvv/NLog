@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.Targets
@@ -60,6 +62,10 @@ namespace NLog.UnitTests.Targets
             providerFactories.AcceptChanges();
         }
 #endif
+
+        public DatabaseTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         [Fact]
         public void SimpleDatabaseTest()

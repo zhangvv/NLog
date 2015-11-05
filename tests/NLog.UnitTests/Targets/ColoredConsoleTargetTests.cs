@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.Targets
@@ -45,6 +47,11 @@ namespace NLog.UnitTests.Targets
 
     public class ColoredConsoleTargetTests : NLogTestBase
     {
+        public ColoredConsoleTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
+     
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
@@ -59,8 +66,8 @@ namespace NLog.UnitTests.Targets
                     CompileRegex = compileRegex
 
                 });
-
-            AssertOutput(target, "The Cat Sat At The Bar.",
+            
+            AssertOutput(target, "The Cat Sat At The Bar.", 
                 new string[] { "The C", "at", " S", "at", " At The Bar." });
         }
 
@@ -102,7 +109,7 @@ namespace NLog.UnitTests.Targets
             AssertOutput(target, "The cat sat at the bar.",
                 new string[] { "The cat sat ", "at", " the bar." });
         }
-
+        
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
@@ -121,7 +128,7 @@ namespace NLog.UnitTests.Targets
                 new string[] { "The ", "cat", " ", "sat", " at the bar." });
         }
 
-        /// <summary>
+
         /// With or wihout CompileRegex, CompileRegex is never null, even if not used when CompileRegex=false. (needed for backwardscomp)
         /// </summary>
         /// <param name="compileRegex"></param>
@@ -195,7 +202,7 @@ namespace NLog.UnitTests.Targets
                 Values = new List<string>();
             }
 
-            public List<string> Values { get; private set; }
+            public List<string> Values { get; private set; } 
 
             public override void Write(string value)
             {

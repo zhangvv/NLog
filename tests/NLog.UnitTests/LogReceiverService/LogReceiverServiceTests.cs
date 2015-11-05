@@ -31,8 +31,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-
-
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.LogReceiverService
 {
@@ -61,6 +60,10 @@ namespace NLog.UnitTests.LogReceiverService
     public class LogReceiverServiceTests : NLogTestBase
     {
         private const string logRecieverUrl = "http://localhost:8080/logrecievertest";
+
+        public LogReceiverServiceTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         [Fact]
         public void ToLogEventInfoTest()

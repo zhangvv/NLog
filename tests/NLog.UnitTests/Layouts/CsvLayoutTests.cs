@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Layouts
 {
     using System;
@@ -42,7 +44,14 @@ namespace NLog.UnitTests.Layouts
 
     public class CsvLayoutTests : NLogTestBase
     {
+        public CsvLayoutTests(ITestOutputHelper output)
+            : base(output)
+        {
+        }
+
 #if !SILVERLIGHT
+
+
         [Fact]
         public void EndToEndTest()
         {

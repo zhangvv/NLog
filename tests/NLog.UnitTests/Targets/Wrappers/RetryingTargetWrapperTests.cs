@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Targets.Wrappers
 {
     using System;
@@ -42,6 +44,10 @@ namespace NLog.UnitTests.Targets.Wrappers
 
     public class RetryingTargetWrapperTests : NLogTestBase
 	{
+        public RetryingTargetWrapperTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void RetryingTargetWrapperTest1()
         {

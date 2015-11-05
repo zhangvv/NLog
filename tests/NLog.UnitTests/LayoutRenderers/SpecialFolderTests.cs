@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 namespace NLog.UnitTests.LayoutRenderers
 {
@@ -45,6 +47,10 @@ namespace NLog.UnitTests.LayoutRenderers
     {
         private string sysDir = Environment.GetFolderPath(Environment.SpecialFolder.System);
         private const string sysDirString = "System";
+
+        public SpecialFolderTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         [Fact]
         public void SpecialFolderTest()

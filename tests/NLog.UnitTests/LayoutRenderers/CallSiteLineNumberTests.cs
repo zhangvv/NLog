@@ -36,6 +36,7 @@
 using System;
 using System.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 #endregion
 
@@ -55,6 +56,10 @@ namespace NLog.UnitTests.LayoutRenderers
 #if MONO
         [Fact(Skip="Not working under MONO - not sure if unit test is wrong, or the code")]
 #else
+        public CallSiteLineNumberTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
 #endif
         public void LineNumberOnlyTest()

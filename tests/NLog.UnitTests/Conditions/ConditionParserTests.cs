@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Conditions
 {
     using NLog.Internal;
@@ -42,6 +44,10 @@ namespace NLog.UnitTests.Conditions
 
     public class ConditionParserTests : NLogTestBase
     {
+        public ConditionParserTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void ParseNullText()
         {

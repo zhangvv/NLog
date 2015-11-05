@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests
 {
     using System;
@@ -38,6 +40,10 @@ namespace NLog.UnitTests
 
     public class LogLevelTests : NLogTestBase
     {
+        public LogLevelTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         [Trait("Component", "Core")]
         public void OrdinalTest()

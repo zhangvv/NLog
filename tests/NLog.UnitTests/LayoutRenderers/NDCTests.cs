@@ -31,12 +31,18 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.LayoutRenderers
 {
     using Xunit;
 
     public class NDCTests : NLogTestBase
     {
+        public NDCTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void NDCTest()
         {

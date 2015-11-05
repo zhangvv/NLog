@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.Targets
@@ -48,6 +50,13 @@ namespace NLog.UnitTests.Targets
     public class ConcurrentFileTargetTests : NLogTestBase
 	{
         private ILogger logger = LogManager.GetLogger("NLog.UnitTests.Targets.ConcurrentFileTargetTests");
+
+        public ConcurrentFileTargetTests() : base(null)
+        {
+            //no parameter for spawn process.
+        }
+
+
 
         private void ConfigureSharedFile(string mode)
         {
@@ -96,6 +105,7 @@ namespace NLog.UnitTests.Targets
             }
             
             LogManager.Configuration = null;
+           // InternalLogger.LogToConsole = false;
         }
 
         private void DoConcurrentTest(int numProcesses, int numLogs, string mode)
@@ -122,7 +132,7 @@ namespace NLog.UnitTests.Targets
             }
 
             int[] maxNumber = new int[numProcesses];
-   
+
             Console.WriteLine("Verifying output file {0}", logFile);
             using (StreamReader sr = File.OpenText(logFile))
             {

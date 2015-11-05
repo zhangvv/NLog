@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.Targets
@@ -43,6 +45,10 @@ namespace NLog.UnitTests.Targets
 
     public class ConsoleTargetTests : NLogTestBase
     {
+        public ConsoleTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void ConsoleOutTest()
         {

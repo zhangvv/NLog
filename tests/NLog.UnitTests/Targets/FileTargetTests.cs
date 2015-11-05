@@ -42,6 +42,7 @@ namespace NLog.UnitTests.Targets
     using System.Text;
     using System.Threading;
     using Xunit;
+    using Xunit.Abstractions;
     using Xunit.Extensions;
 
     using NLog.Config;
@@ -55,6 +56,10 @@ namespace NLog.UnitTests.Targets
     public class FileTargetTests : NLogTestBase
     {
         private readonly ILogger logger = LogManager.GetLogger("NLog.UnitTests.Targets.FileTargetTests");
+
+        public FileTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         private void GenerateArchives(int count, string archiveDateFormat, string archiveFileName,
             ArchiveNumberingMode archiveNumbering)
@@ -610,7 +615,7 @@ namespace NLog.UnitTests.Targets
                 }
                 //Setting the Configuration to [null] will result in a 'Dump' of the current log entries
                 LogManager.Configuration = null;
-                
+
                 var files = Directory.GetFiles(archiveFolder).OrderBy(s => s);
                 //the amount of archived files may not exceed the set 'MaxArchiveFiles'
                 Assert.Equal(ft.MaxArchiveFiles, files.Count());
@@ -673,7 +678,7 @@ namespace NLog.UnitTests.Targets
                 LogManager.Configuration = null;
 
                 var files = Directory.GetFiles(tempPath).OrderBy(s => s);
-                //we expect 3 archive files, plus one current file
+                //the amount of archived files may not exceed the set 'MaxArchiveFiles'
                 Assert.Equal(ft.MaxArchiveFiles + 1, files.Count());
 
 
@@ -693,7 +698,7 @@ namespace NLog.UnitTests.Targets
                 Assert.Equal(files.ElementAt(1), files2.ElementAt(0));
                 Assert.Equal(files.ElementAt(2), files2.ElementAt(1));
                 Assert.Equal(files.ElementAt(3), files2.ElementAt(2));
-                //one new file should be created
+                //one new archive file shoud be created
                 Assert.DoesNotContain(files2.ElementAt(3), files);
             }
             finally
@@ -705,7 +710,7 @@ namespace NLog.UnitTests.Targets
                     Directory.Delete(tempPath, true);
             }
         }
-        
+
         public static IEnumerable<object[]> DateArchive_UsesDateFromCurrentTimeSource_TestParameters
         {
             get
@@ -721,9 +726,9 @@ namespace NLog.UnitTests.Targets
                     select new object[] { timeKind, concurrentWrites, keepFileOpen, networkWrites, includeSequenceInArchive };
             }
         }
-        
+
         [Theory]
-        [PropertyData("DateArchive_UsesDateFromCurrentTimeSource_TestParameters")]
+        [MemberData("DateArchive_UsesDateFromCurrentTimeSource_TestParameters")]
         public void DateArchive_UsesDateFromCurrentTimeSource(DateTimeKind timeKind, bool concurrentWrites, bool keepFileOpen, bool networkWrites, bool includeSequenceInArchive)
         {
             var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -792,7 +797,7 @@ namespace NLog.UnitTests.Targets
                 }
                 //Setting the Configuration to [null] will result in a 'Dump' of the current log entries
                 LogManager.Configuration = null;
-                
+
                 var files = Directory.GetFiles(archiveFolder).OrderBy(s => s).ToList();
                 //the amount of archived files may not exceed the set 'MaxArchiveFiles'
                 Assert.Equal(ft.MaxArchiveFiles, files.Count);
@@ -813,7 +818,7 @@ namespace NLog.UnitTests.Targets
                 //two files should still be there
                 Assert.Equal(files[1], files2[0]);
                 Assert.Equal(files[2], files2[1]);
-                //one new archive file should be created
+                //one new archive file shoud be created
                 Assert.DoesNotContain(files2[2], files);
             }
             finally
@@ -1089,7 +1094,7 @@ namespace NLog.UnitTests.Targets
 
                 //Setting the Configuration to [null] will result in a 'Dump' of the current log entries
                 LogManager.Configuration = null;
-                
+
                 var fileCount = Directory.EnumerateFiles(archiveFolder).Count();
 
                 Assert.Equal(3, fileCount);
@@ -1151,7 +1156,7 @@ namespace NLog.UnitTests.Targets
                 }
                 //Setting the Configuration to [null] will result in a 'Dump' of the current log entries
                 LogManager.Configuration = null;
-                
+
                 var files = Directory.GetFiles(archiveFolder).OrderBy(s => s);
                 //the amount of archived files may not exceed the set 'MaxArchiveFiles'
                 Assert.Equal(ft.MaxArchiveFiles, files.Count());
@@ -1696,7 +1701,7 @@ namespace NLog.UnitTests.Targets
                     Directory.Delete(tempPath, true);
             }
         }
-        
+
         [Theory]
         [InlineData("/")]
         [InlineData("\\")]
@@ -1811,7 +1816,7 @@ namespace NLog.UnitTests.Targets
             }
 
         }
-    
+
         [Fact]
         public void FileTarget_Handle_Other_Files_That_Match_Archive_Format()
         {
@@ -1881,8 +1886,8 @@ namespace NLog.UnitTests.Targets
 
                 SimpleConfigurator.ConfigureForTargetLogging(ft, LogLevel.Debug);
 
-                // we emit 2 * 250 *(aaa + \n) bytes
-                // so that we should get a full file + 1 archives
+                // we emit 5 * 250 *(3 x aaa + \n) bytes
+                // so that we should get a full file + 3 archives
                 for (var i = 0; i < 250; ++i)
                 {
                     logger.Debug("aaa");
@@ -1974,7 +1979,7 @@ namespace NLog.UnitTests.Targets
                 for (var i = 0; i < 250; ++i)
                 {
                     logger.Debug("ddd");
-                }
+            }
 
                 LogManager.Configuration = null;
 
@@ -2011,7 +2016,7 @@ namespace NLog.UnitTests.Targets
                 Directory.CreateDirectory(Path.Combine(tempPath, "archive"));
                 File.Create(Path.Combine(tempPath, "archive", "file.10.txt2")).Dispose();
                 File.Create(Path.Combine(tempPath, "archive", "file.9.txt2")).Dispose();
-
+        /// <summary>
                 var ft = new FileTarget
                 {
                     FileName = tempFile,
@@ -2021,9 +2026,9 @@ namespace NLog.UnitTests.Targets
                     Layout = "${message}",
                     MaxArchiveFiles = 2,
                 };
-
+        /// Remove archived files in correct order
                 SimpleConfigurator.ConfigureForTargetLogging(ft, LogLevel.Debug);
-
+        /// </summary>
                 // we emit 2 * 250 *(aaa + \n) bytes
                 // so that we should get a full file + 1 archive
                 for (var i = 0; i < 250; ++i)
@@ -2297,8 +2302,8 @@ namespace NLog.UnitTests.Targets
         /// </summary>
         /// <param name="archivePath">path to dir of archived files</param>
         /// <param name="logdir">path to dir of logged files</param>
-        /// <param name="maxArchiveFilesConfig">max count of archived files</param>
-        /// <param name="expectedArchiveFiles">expected count of archived files</param>
+        /// <param name="maxArchiveFilesConfig">max count of archived files </param>
+        /// <param name="maxExpectedArchiveFiles">test number for max. If <paramref name="exactArchiveTest"/>, use equals instead of lower-or-equals</param>
         /// <param name="dateFormat">date format</param>
         /// <param name="changeCreationAndWriteTime">change file creation/last write date</param>
         private void TestMaxArchiveFilesWithDate(string archivePath, string logdir,
@@ -2353,7 +2358,7 @@ namespace NLog.UnitTests.Targets
 
                 var currentFilesCount = archiveDir.GetFiles().Length;
                 Assert.Equal(expectedArchiveFiles, currentFilesCount);
-            }
+                }
             finally
             {
                 //cleanup
@@ -2404,7 +2409,7 @@ namespace NLog.UnitTests.Targets
                 logger.Warn("ccc");
                 LogManager.Configuration = null;
                 AssertFileContents(fullFilePath, "Debug aaa\nInfo bbb\nWarn ccc\n", Encoding.UTF8);
-            }
+    }
             finally
             {
                 if (File.Exists(fullFilePath))
@@ -2434,7 +2439,7 @@ namespace NLog.UnitTests.Targets
                 logger.Warn("ccc");
                 LogManager.Configuration = null;
                 AssertFileContents(fullFilePath, "Debug aaa\nInfo bbb\nWarn ccc\n", Encoding.UTF8);
-            }
+}
             finally
             {
                 if (File.Exists(fullFilePath))

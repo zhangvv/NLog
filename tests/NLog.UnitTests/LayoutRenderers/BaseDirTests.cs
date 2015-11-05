@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.LayoutRenderers
@@ -42,6 +44,10 @@ namespace NLog.UnitTests.LayoutRenderers
     public class BaseDirTests : NLogTestBase
     {
         private string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+
+        public BaseDirTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         [Fact]
         public void BaseDirTest()
