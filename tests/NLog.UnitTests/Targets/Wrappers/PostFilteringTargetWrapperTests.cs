@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Targets.Wrappers
 {
     using System;
@@ -41,6 +43,10 @@ namespace NLog.UnitTests.Targets.Wrappers
 
     public class PostFilteringTargetWrapperTests : NLogTestBase
 	{
+        public PostFilteringTargetWrapperTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void PostFilteringTargetWrapperUsingDefaultFilterTest()
         {

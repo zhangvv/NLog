@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Targets.Wrappers
 {
     using System;
@@ -43,6 +45,10 @@ namespace NLog.UnitTests.Targets.Wrappers
 
     public class FallbackGroupTargetTests : NLogTestBase
 	{
+        public FallbackGroupTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void FirstTargetWorks_Write_AllEventsAreWrittenToFirstTarget()
         {

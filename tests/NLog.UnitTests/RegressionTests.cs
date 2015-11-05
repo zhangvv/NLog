@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests
 {
     using System;
@@ -40,6 +42,10 @@ namespace NLog.UnitTests
 
     public class RegressionTests : NLogTestBase
     {
+        public RegressionTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void Bug3990StackOverflowWhenUsingNLogViewerTarget()
         {

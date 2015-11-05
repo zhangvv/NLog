@@ -33,6 +33,7 @@
 
 
 using System.Threading;
+using Xunit.Abstractions;
 
 #if !SILVERLIGHT
 
@@ -49,6 +50,10 @@ namespace NLog.UnitTests.Targets
 
     public class MailTargetTests : NLogTestBase
     {
+        public MailTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void SimpleEmailTest()
         {

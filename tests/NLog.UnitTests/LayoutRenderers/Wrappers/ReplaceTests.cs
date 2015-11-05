@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.LayoutRenderers.Wrappers
 {
     using NLog;
@@ -43,6 +45,10 @@ namespace NLog.UnitTests.LayoutRenderers.Wrappers
 
     public class ReplaceTests : NLogTestBase
     {
+        public ReplaceTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void ReplaceTestWithSimpleRegEx()
         {

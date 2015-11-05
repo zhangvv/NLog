@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT && !MONO
 
 namespace NLog.UnitTests.Targets
@@ -47,6 +49,10 @@ namespace NLog.UnitTests.Targets
 
     public class EventLogTargetTests : NLogTestBase
     {
+        public EventLogTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void WriteEventLogEntryTrace()
         {

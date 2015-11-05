@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Layouts
 {
     using NLog.LayoutRenderers;
@@ -42,6 +44,10 @@ namespace NLog.UnitTests.Layouts
 
     public class ThreadAgnosticTests : NLogTestBase
     {
+        public ThreadAgnosticTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void ThreadAgnosticAttributeTest()
         {

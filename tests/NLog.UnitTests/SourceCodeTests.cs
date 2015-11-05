@@ -36,6 +36,7 @@ using System.Reflection;
 using System.Text;
 using NLog.Layouts;
 using NLog.Targets;
+using Xunit.Abstractions;
 
 #if !SILVERLIGHT
 
@@ -52,7 +53,7 @@ namespace NLog.UnitTests
     /// <summary>
     /// Source code tests.
     /// </summary>
-    public class SourceCodeTests
+    public class SourceCodeTests : NLogTestBase
     {
         private static Regex classNameRegex = new Regex(@"^    (public |abstract |sealed |static |partial |internal )*(class|interface|struct|enum) (?<className>\w+)\b", RegexOptions.Compiled);
         private static Regex delegateTypeRegex = new Regex(@"^    (public |internal )delegate .*\b(?<delegateType>\w+)\(", RegexOptions.Compiled);
@@ -75,7 +76,7 @@ namespace NLog.UnitTests
         private string licenseFile;
         private string[] licenseLines;
 
-        public SourceCodeTests()
+        public SourceCodeTests(ITestOutputHelper output) : base(output)
         {
             this.sourceCodeDirectory = Directory.GetCurrentDirectory();
             while (this.sourceCodeDirectory != null)
@@ -360,7 +361,7 @@ namespace NLog.UnitTests
                         string ns = line.Substring(10);
                         if (expectedNamespace != ns)
                         {
-                            Console.WriteLine("Invalid namespace: '{0}' Expected: '{1}'", ns, expectedNamespace);
+                            Output.WriteLine("Invalid namespace: '{0}' Expected: '{1}'", ns, expectedNamespace);
                             success = false;
                         }
                     }
@@ -381,19 +382,19 @@ namespace NLog.UnitTests
 
             if (classNames.Count == 0)
             {
-                Console.WriteLine("No classes found in {0}", file);
+                Output.WriteLine("No classes found in {0}", file);
                 success = false;
             }
 
             if (classNames.Count > 1)
             {
-                Console.WriteLine("More than 1 class name found in {0}", file);
+                Output.WriteLine("More than 1 class name found in {0}", file);
                 success = false;
             }
 
             if (classNames.Count == 1 && classNames[0] != expectedClassName)
             {
-                Console.WriteLine("Invalid class name. Expected '{0}', actual: '{1}'", expectedClassName, classNames[0]);
+                Output.WriteLine("Invalid class name. Expected '{0}', actual: '{1}'", expectedClassName, classNames[0]);
                 success = false;
             }
 

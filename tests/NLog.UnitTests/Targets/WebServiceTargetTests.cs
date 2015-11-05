@@ -49,11 +49,16 @@ using Owin;
 using Microsoft.Owin.Hosting;
 #endif
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Targets
 {
     public class WebServiceTargetTests : NLogTestBase
     {
+        public WebServiceTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void Stream_CopyWithOffset_test()
         {

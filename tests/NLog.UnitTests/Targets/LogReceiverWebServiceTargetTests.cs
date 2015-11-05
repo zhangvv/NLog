@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Targets
 {
     using System;
@@ -45,6 +47,10 @@ namespace NLog.UnitTests.Targets
 
     public class LogReceiverWebServiceTargetTests : NLogTestBase
     {
+        public LogReceiverWebServiceTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void LogReceiverWebServiceTargetSingleEventTest()
         {

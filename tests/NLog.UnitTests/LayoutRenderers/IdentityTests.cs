@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.LayoutRenderers
@@ -41,6 +43,10 @@ namespace NLog.UnitTests.LayoutRenderers
 
     public class IdentityTests : NLogTestBase
     {
+        public IdentityTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void IdentityTest1()
         {

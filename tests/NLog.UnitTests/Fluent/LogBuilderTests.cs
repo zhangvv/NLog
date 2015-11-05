@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using NLog.Config;
 using NLog.Targets;
 using NLog.UnitTests.Common;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Fluent
 {
@@ -47,7 +48,7 @@ namespace NLog.UnitTests.Fluent
     {
         private static readonly ILogger _logger = LogManager.GetLogger("logger1");
 
-        public LogBuilderTests()
+        public LogBuilderTests(ITestOutputHelper output) : base(output)
         {
             var configuration = new LoggingConfiguration();
 

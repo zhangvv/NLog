@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Targets
 {
     using NLog.Targets;
@@ -40,6 +42,10 @@ namespace NLog.UnitTests.Targets
     
     public class LineEndingModeTests : NLogTestBase
     {
+        public LineEndingModeTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void LineEndingModeEqualityTest()
         {

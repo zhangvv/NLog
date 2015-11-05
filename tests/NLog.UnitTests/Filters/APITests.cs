@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Filters
 {
     using NLog.Layouts;
@@ -39,6 +41,10 @@ namespace NLog.UnitTests.Filters
 
     public class APITests : NLogTestBase
     {
+        public APITests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void APITest()
         {

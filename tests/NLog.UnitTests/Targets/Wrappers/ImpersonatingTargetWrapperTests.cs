@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT && !MONO
 
 namespace NLog.UnitTests.Targets.Wrappers
@@ -48,6 +50,10 @@ namespace NLog.UnitTests.Targets.Wrappers
 	{
         private const string NLogTestUser = "NLogTestUser";
         private const string NLogTestUserPassword = "BC@57acasd123";
+
+        public ImpersonatingTargetWrapperTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         [Fact]
         public void ImpersonatingWrapperTest()

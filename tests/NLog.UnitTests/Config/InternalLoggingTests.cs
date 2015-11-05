@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Config
 {
     using NLog.Common;
@@ -38,6 +40,10 @@ namespace NLog.UnitTests.Config
 
     public class InternalLoggingTests : NLogTestBase
     {
+        public InternalLoggingTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void InternalLoggingConfigTest1()
         {
@@ -75,6 +81,7 @@ namespace NLog.UnitTests.Config
                 Assert.True(InternalLogger.LogToConsoleError);
                 Assert.Same(LogLevel.Fatal, LogManager.GlobalThreshold);
                 Assert.True(LogManager.ThrowExceptions);
+                InternalLogger.LogToConsole = false;
             }
         }
     }

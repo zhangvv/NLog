@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.Targets
@@ -44,6 +46,10 @@ namespace NLog.UnitTests.Targets
 
     public class ColoredConsoleTargetTests : NLogTestBase
     {
+        public ColoredConsoleTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void WordHighlightingTextTest()
         {

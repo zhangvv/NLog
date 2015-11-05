@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.Targets
@@ -55,6 +57,10 @@ namespace NLog.UnitTests.Targets
     public class FileTargetTests : NLogTestBase
     {
         private readonly ILogger logger = LogManager.GetLogger("NLog.UnitTests.Targets.FileTargetTests");
+
+        public FileTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         private void GenerateArchives(int count, string archiveDateFormat, string archiveFileName,
             ArchiveNumberingMode archiveNumbering)
@@ -704,7 +710,7 @@ namespace NLog.UnitTests.Targets
 
 
         [Theory]
-        [PropertyData("DateArchive_UsesDateFromCurrentTimeSource_TestParameters")]
+        [MemberData("DateArchive_UsesDateFromCurrentTimeSource_TestParameters")]
         public void DateArchive_UsesDateFromCurrentTimeSource(DateTimeKind timeKind, bool concurrentWrites, bool keepFileOpen, bool networkWrites)
         {
             var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());

@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests
 {
     using System;
@@ -38,6 +40,10 @@ namespace NLog.UnitTests
 
     public class GetLoggerTests : NLogTestBase
     {
+        public GetLoggerTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void GetCurrentClassLoggerTest()
         {

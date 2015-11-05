@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.LayoutRenderers
 {
     using NLog.Layouts;
@@ -38,6 +40,10 @@ namespace NLog.UnitTests.LayoutRenderers
 
     public class EventContextTests : NLogTestBase
     {
+        public EventContextTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void Test1()
         {

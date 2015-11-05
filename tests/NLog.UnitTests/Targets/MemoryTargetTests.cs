@@ -39,11 +39,16 @@ using Xunit;
 using NLog;
 using NLog.Targets;
 using NLog.Config;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Targets
 {
     public class MemoryTargetTests : NLogTestBase
     {
+        public MemoryTargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void MemoryTarget_LogLevelTest()
         { 

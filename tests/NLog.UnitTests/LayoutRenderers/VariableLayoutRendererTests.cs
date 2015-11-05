@@ -37,6 +37,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 #endregion
 
@@ -44,6 +45,10 @@ namespace NLog.UnitTests.LayoutRenderers
 {
     public class VariableLayoutRendererTests : NLogTestBase
     {
+        public VariableLayoutRendererTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void Var_from_xml()
         {

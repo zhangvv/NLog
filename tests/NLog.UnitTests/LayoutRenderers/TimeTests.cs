@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.LayoutRenderers
 {
     using NLog.LayoutRenderers;
@@ -38,6 +40,10 @@ namespace NLog.UnitTests.LayoutRenderers
 
     public class TimeTests : NLogTestBase
     {
+        public TimeTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void UniversalTimeTest()
         {

@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Conditions
 {
     using System;
@@ -45,6 +47,10 @@ namespace NLog.UnitTests.Conditions
 
     public class ConditionEvaluatorTests : NLogTestBase
     {
+        public ConditionEvaluatorTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void BooleanOperatorTest()
         {

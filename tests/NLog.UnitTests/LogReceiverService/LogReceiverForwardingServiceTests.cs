@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if WCF_SUPPORTED && !SILVERLIGHT
 
 namespace NLog.UnitTests.LogReceiverService
@@ -41,6 +43,10 @@ namespace NLog.UnitTests.LogReceiverService
 
     public class LogReceiverForwardingServiceTests : NLogTestBase
     {
+        public LogReceiverForwardingServiceTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void ToLogEventInfoTest()
         {

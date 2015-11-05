@@ -34,6 +34,7 @@
 #if !SILVERLIGHT
 
 using System.Reflection;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.LayoutRenderers
 {
@@ -41,6 +42,10 @@ namespace NLog.UnitTests.LayoutRenderers
 
     public class AssemblyVersionTests : NLogTestBase
     {
+        public AssemblyVersionTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void BaseDirTest()
         {

@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.Internal.NetworkSenders
@@ -42,8 +44,12 @@ namespace NLog.UnitTests.Internal.NetworkSenders
     using Xunit;
     using Xunit.Extensions;
 
-    public class UdpNetworkSenderTests
+    public class UdpNetworkSenderTests : NLogTestBase
     {
+        public UdpNetworkSenderTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Theory]
         [InlineData("udp://randomurl:8080", false)]
         [InlineData("udp://255.255.255.255:8080", true)]

@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Internal.NetworkSenders
 {
     using System;
@@ -45,6 +47,10 @@ namespace NLog.UnitTests.Internal.NetworkSenders
 
     public class TcpNetworkSenderTests : NLogTestBase
     {
+        public TcpNetworkSenderTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void TcpHappyPathTest()
         {

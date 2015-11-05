@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.LayoutRenderers
@@ -43,7 +45,7 @@ namespace NLog.UnitTests.LayoutRenderers
     {
         private const string TestKey = @"Software\NLogTest";
 
-        public RegistryTests()
+        public RegistryTests(ITestOutputHelper output) : base(output)
         {
             var key = Registry.CurrentUser.CreateSubKey(TestKey);
             key.SetValue("Foo", "FooValue");

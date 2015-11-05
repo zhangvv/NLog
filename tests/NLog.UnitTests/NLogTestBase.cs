@@ -32,6 +32,7 @@
 // 
 
 using System.Runtime.CompilerServices;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests
 {
@@ -51,14 +52,21 @@ namespace NLog.UnitTests
     using System.Security.Permissions;
 #endif
 
+#if !SILVERLIGHT
+    [Collection("dont run in parallel")]
+#endif
     public abstract class NLogTestBase
     {
-        protected NLogTestBase()
+        protected NLogTestBase(ITestOutputHelper output)
         {
+            Output = output;
             InternalLogger.LogToConsole = false;
             InternalLogger.LogToConsoleError = false;
             LogManager.ThrowExceptions = false;
         }
+
+        protected ITestOutputHelper Output {get;private set;}
+
 
         public void AssertDebugCounter(string targetName, int val)
         {

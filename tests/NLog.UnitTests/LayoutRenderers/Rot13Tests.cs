@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.LayoutRenderers
 {
     using NLog.Layouts;
@@ -39,6 +41,10 @@ namespace NLog.UnitTests.LayoutRenderers
 
     public class Rot13Tests : NLogTestBase
     {
+        public Rot13Tests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void Test1()
         {

@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Config
 {
     using System;
@@ -42,6 +44,10 @@ namespace NLog.UnitTests.Config
 
     public class ConfigurationItemFactoryTests : NLogTestBase
     {
+        public ConfigurationItemFactoryTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void ConfigurationItemFactoryDefaultTest()
         {

@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+
+
 #if !SILVERLIGHT
 
 #define DEBUG
@@ -42,12 +44,13 @@ namespace NLog.UnitTests
     using System.Threading;
     using System.Diagnostics;
     using Xunit;
+    using Xunit.Abstractions;
 
     public class NLogTraceListenerTests : NLogTestBase, IDisposable
     {
         private readonly CultureInfo previousCultureInfo;
 
-        public NLogTraceListenerTests()
+        public NLogTraceListenerTests(ITestOutputHelper output) : base(output)
         {
             this.previousCultureInfo = Thread.CurrentThread.CurrentCulture;
             // set the culture info with the decimal separator (comma) different from InvariantCulture separator (point)

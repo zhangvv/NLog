@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Layouts
 {
     using System;
@@ -42,6 +44,10 @@ namespace NLog.UnitTests.Layouts
 
     public class SimpleLayoutOutputTests : NLogTestBase
     {
+        public SimpleLayoutOutputTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void VeryLongRendererOutput()
         {

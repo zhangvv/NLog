@@ -32,6 +32,7 @@
 // 
 
 using NLog.Config;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Targets
 {
@@ -44,6 +45,10 @@ namespace NLog.UnitTests.Targets
 
     public class TargetTests : NLogTestBase
     {
+        public TargetTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void InitializeTest()
         {

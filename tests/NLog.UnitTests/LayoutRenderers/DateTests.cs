@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.LayoutRenderers
 {
     using System;
@@ -40,6 +42,10 @@ namespace NLog.UnitTests.LayoutRenderers
 
     public class DateTests : NLogTestBase
     {
+        public DateTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void DefaultDateTest()
         {

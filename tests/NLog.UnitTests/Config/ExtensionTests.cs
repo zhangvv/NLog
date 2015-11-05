@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 namespace NLog.UnitTests.Config
 {
     using System.IO;
@@ -48,7 +50,11 @@ namespace NLog.UnitTests.Config
 #else
         private string extensionAssemblyFullPath1 = Path.GetFullPath("SampleExtensions.dll");
 #endif
-        
+
+        public ExtensionTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void ExtensionTest1()
         {
