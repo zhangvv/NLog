@@ -7,7 +7,7 @@ before_test:
 test_script:
   - pwd
   - dir
-  - xunit.console.clr4 "c:\projects\nlog\build\bin\Debug\.NET Framework 3.5\NLog.UnitTests.dll" /appveyor /noshadow
+  - '%xunit20%\xunit.console.x86 "build\bin\Debug\.NET Framework 3.5\NLog.UnitTests.dll" -appveyor -noshadow'
   - nuget.exe install OpenCover -ExcludeVersion
   - dir
   - OpenCover\tools\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:"\"C:\projects\nlog\build\bin\Debug\.NET Framework 4.5\NLog.UnitTests.dll\" -appveyor -noshadow"  -returntargetcode -filter:"+[NLog]* +[NLog.Extended]* -[NLog]JetBrains.Annotations.*" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
