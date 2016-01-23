@@ -88,7 +88,7 @@ namespace NLog.UnitTests.Targets
         }
         
         [Theory]
-        [PropertyData("SimpleFileTest_TestParameters")]
+        [MemberData("SimpleFileTest_TestParameters")]
         public void SimpleFileTest(bool concurrentWrites, bool keepFileOpen, bool networkWrites)
         {
             var tempFile = Path.GetTempFileName();
@@ -723,7 +723,7 @@ namespace NLog.UnitTests.Targets
         }
         
         [Theory]
-        [PropertyData("DateArchive_UsesDateFromCurrentTimeSource_TestParameters")]
+        [MemberData("DateArchive_UsesDateFromCurrentTimeSource_TestParameters")]
         public void DateArchive_UsesDateFromCurrentTimeSource(DateTimeKind timeKind, bool concurrentWrites, bool keepFileOpen, bool networkWrites, bool includeSequenceInArchive)
         {
             var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -848,7 +848,7 @@ namespace NLog.UnitTests.Targets
         }
 
         [Theory]
-        [PropertyData("DateArchive_ArchiveOnceOnly_TestParameters")]
+        [MemberData("DateArchive_ArchiveOnceOnly_TestParameters")]
         public void DateArchive_ArchiveOnceOnly(bool concurrentWrites, bool keepFileOpen, bool networkWrites, bool includeSequenceInArchive)
         {
             var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -908,7 +908,7 @@ namespace NLog.UnitTests.Targets
         }
 
         [Theory]
-        [PropertyData("DateArchive_SkipPeriod_TestParameters")]
+        [MemberData("DateArchive_SkipPeriod_TestParameters")]
         public void DateArchive_SkipPeriod(DateTimeKind timeKind, FileArchivePeriod archivePeriod, bool includeSequenceInArchive)
         {
             var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
@@ -980,7 +980,7 @@ namespace NLog.UnitTests.Targets
         }
         
         [Theory]
-        [PropertyData("DateArchive_AllLoggersTransferToCurrentLogFile_TestParameters")]
+        [MemberData("DateArchive_AllLoggersTransferToCurrentLogFile_TestParameters")]
         public void DateArchive_AllLoggersTransferToCurrentLogFile(bool concurrentWrites, bool keepFileOpen, bool networkWrites, bool includeSequenceInArchive, bool enableArchiveCompression)
         {
             var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());

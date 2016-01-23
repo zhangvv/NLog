@@ -473,9 +473,9 @@ namespace NLog.UnitTests.LayoutRenderers
             var ex = new ExceptionWithBrokenMessagePropertyException();
 #pragma warning disable 0618
             // Obsolete method requires testing until completely removed.
-            Assert.ThrowsDelegate action = () => logger.ErrorException("msg", ex);
+            logger.ErrorException("msg", ex);
 #pragma warning restore 0618
-            Assert.DoesNotThrow(action);
+
         }
 
         private class ExceptionWithBrokenMessagePropertyException : NLogConfigurationException
