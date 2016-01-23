@@ -460,7 +460,7 @@ namespace NLog.UnitTests
                 AsyncHelpers.ForEachItemInParallel(input, finalContinuation,
                     (i, cont) =>
                         {
-                            Console.WriteLine("Callback on {0}", Thread.CurrentThread.ManagedThreadId);
+                            //Console.WriteLine("Callback on {0}", Thread.CurrentThread.ManagedThreadId);
                             lock (input)
                             {
                                 sum += i;

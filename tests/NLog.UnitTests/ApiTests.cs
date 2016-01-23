@@ -93,7 +93,7 @@ namespace NLog.UnitTests
                         continue;
                     }
 
-                    // Console.WriteLine("  {0}", method.Name);
+                    //  Console.WriteLine("  {0}", method.Name);
                     try
                     {
                         this.IncrementUsageCount(method.ReturnType);
@@ -106,7 +106,7 @@ namespace NLog.UnitTests
                     catch (Exception ex)
                     {
                         // this sometimes throws on .NET Compact Framework, but is not fatal
-                        Console.WriteLine("EXCEPTION {0}", ex);
+                         Console.WriteLine("EXCEPTION {0}", ex);
                     }
                 }
             }
@@ -118,7 +118,7 @@ namespace NLog.UnitTests
             {
                 if (kvp.Value == 0)
                 {
-                    Console.WriteLine("Type '{0}' is not used.", kvp.Key);
+                    //  Console.WriteLine("Type '{0}' is not used.", kvp.Key);
                     unusedTypes.Add(kvp.Key);
                     sb.Append(kvp.Key.FullName).Append("\n");
                 }

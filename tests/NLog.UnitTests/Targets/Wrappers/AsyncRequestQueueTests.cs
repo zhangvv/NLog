@@ -39,7 +39,7 @@ namespace NLog.UnitTests.Targets.Wrappers
     using Xunit;
 
     public class AsyncRequestQueueTests : NLogTestBase
-	{
+    {
         [Fact]
         public void AsyncRequestQueueWithDiscardBehaviorTest()
         {
@@ -80,7 +80,7 @@ namespace NLog.UnitTests.Targets.Wrappers
             var ev2 = LogEventInfo.CreateNullEvent().WithContinuation(ex => { });
             var ev3 = LogEventInfo.CreateNullEvent().WithContinuation(ex => { });
             var ev4 = LogEventInfo.CreateNullEvent().WithContinuation(ex => { });
-            
+
             var queue = new AsyncRequestQueue(3, AsyncTargetWrapperOverflowAction.Grow);
             Assert.Equal(3, queue.RequestLimit);
             Assert.Equal(AsyncTargetWrapperOverflowAction.Grow, queue.OnOverflow);
@@ -128,8 +128,8 @@ namespace NLog.UnitTests.Targets.Wrappers
                     {
                         AsyncLogEventInfo logEvent = LogEventInfo.CreateNullEvent().WithContinuation(ex => { });
                         logEvent.LogEvent.Message = "msg" + i;
-                        
-                        // Console.WriteLine("Pushing event {0}", i);
+
+                        //  Console.WriteLine("Pushing event {0}", i);
                         pushingEvent = i;
                         queue.Enqueue(logEvent);
                     }
