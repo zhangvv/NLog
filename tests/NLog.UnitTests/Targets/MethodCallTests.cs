@@ -39,12 +39,17 @@ using System.Threading.Tasks;
 using NLog.Config;
 using NLog.Targets;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NLog.UnitTests.Targets
 {
     public class MethodCallTests : NLogTestBase
     {
         private const string CorrectClassName = "NLog.UnitTests.Targets.MethodCallTests, NLog.UnitTests";
+
+        public MethodCallTests(ITestOutputHelper output) : base(output)
+        {
+        }
 
         #region ToBeCalled Methods
 

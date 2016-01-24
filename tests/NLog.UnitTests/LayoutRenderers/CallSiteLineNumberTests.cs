@@ -51,14 +51,17 @@ namespace NLog.UnitTests.LayoutRenderers
     public class CallSiteLineNumberTests : NLogTestBase
     {
 
+        public CallSiteLineNumberTests(ITestOutputHelper output)
+            : base(output)
+        {
+        }
+
 #if !SILVERLIGHT
 
 #if MONO
         [Fact(Skip="Not working under MONO - not sure if unit test is wrong, or the code")]
 #else
-        public CallSiteLineNumberTests(ITestOutputHelper output) : base(output)
-        {
-        }
+    
 
         [Fact]
 #endif

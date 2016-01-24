@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Xunit.Abstractions;
+
 #if !SILVERLIGHT && !MONO
 namespace NLog.UnitTests.Config
 {
@@ -42,6 +44,10 @@ namespace NLog.UnitTests.Config
 
     public class ReloadTests : NLogTestBase
     {
+        public ReloadTests(ITestOutputHelper output) : base(output)
+        {
+        }
+
         [Fact]
         public void TestNoAutoReload()
         {
