@@ -31,6 +31,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using System.Linq;
+
 namespace NLog.LayoutRenderers.Wrappers
 {
     using NLog.Config;
@@ -71,7 +73,21 @@ namespace NLog.LayoutRenderers.Wrappers
         /// <returns>Post-processed text.</returns>
         protected override string Transform(string text)
         {
-            return string.Join(Environment.NewLine, MakeChunks(text, WrapLine));
+            return JoinStrings(Environment.NewLine, MakeChunks(text, WrapLine));
+        }
+
+        /// <summary>
+        /// Concat strings
+        /// </summary>
+        /// <remarks>Helper needed for .Net3.5</remarks>
+        private static string JoinStrings(string separator, IEnumerable<string> values)
+        {
+#if NET3_5
+            return string.Join(separator, values.ToArray());
+#else
+            return string.Join(separator, values);
+#endif
+
         }
 
         /// <summary>
