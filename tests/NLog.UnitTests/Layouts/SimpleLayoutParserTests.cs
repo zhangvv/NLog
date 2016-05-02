@@ -218,7 +218,60 @@ namespace NLog.UnitTests.Layouts
             Assert.NotNull(pad);
             var message = ((SimpleLayout)pad.Inner).Renderers[0] as MessageLayoutRenderer;
             Assert.NotNull(message);
+            Assert.True(upperCase.Uppercase);
         }
+
+        [Fact]
+        public void AmbientPropertyTestUppercase()
+        {
+            SimpleLayout l = "${message:uppercase=true}";
+            Assert.Equal(1, l.Renderers.Count);
+            var upperCase = l.Renderers[0] as UppercaseLayoutRendererWrapper;
+            Assert.NotNull(upperCase);
+            var message = ((SimpleLayout)upperCase.Inner).Renderers[0] as MessageLayoutRenderer;
+            Assert.NotNull(message);
+            Assert.True(upperCase.Uppercase);
+        }
+
+        [Fact]
+        public void AmbientPropertyTestUppercaseWithArg()
+        {
+            SimpleLayout l = "${message:uppercase}";
+            Assert.Equal(1, l.Renderers.Count);
+            var upperCase = l.Renderers[0] as UppercaseLayoutRendererWrapper;
+            Assert.NotNull(upperCase);
+            var message = ((SimpleLayout)upperCase.Inner).Renderers[0] as MessageLayoutRenderer;
+            Assert.NotNull(message);
+            var defaultValue = new UppercaseLayoutRendererWrapper().Uppercase;
+            Assert.Equal(defaultValue,upperCase.Uppercase);
+        }
+
+        [Fact]
+        public void AmbientPropertyTestUppercase_layoutWithDefaultProperty()
+        {
+            SimpleLayout l = "${exception:uppercase=true}";
+            Assert.Equal(1, l.Renderers.Count);
+            var upperCase = l.Renderers[0] as UppercaseLayoutRendererWrapper;
+            Assert.NotNull(upperCase);
+            var message = ((SimpleLayout)upperCase.Inner).Renderers[0] as ExceptionLayoutRenderer;
+            Assert.NotNull(message);
+            var defaultValue = new UppercaseLayoutRendererWrapper().Uppercase;
+            Assert.Equal(defaultValue, upperCase.Uppercase);
+        }
+
+        [Fact]
+        public void AmbientPropertyTestUppercaseWithArg_layoutWithDefaultProperty()
+        {
+            SimpleLayout l = "${exception:uppercase}";
+            Assert.Equal(1, l.Renderers.Count);
+            var upperCase = l.Renderers[0] as UppercaseLayoutRendererWrapper;
+            Assert.NotNull(upperCase);
+            var message = ((SimpleLayout)upperCase.Inner).Renderers[0] as ExceptionLayoutRenderer;
+            Assert.NotNull(message);
+            var defaultValue = new UppercaseLayoutRendererWrapper().Uppercase;
+            Assert.Equal(defaultValue, upperCase.Uppercase);
+        }
+
 
         [Fact]
         public void ReverseDoubleAmbientPropertyTest()
