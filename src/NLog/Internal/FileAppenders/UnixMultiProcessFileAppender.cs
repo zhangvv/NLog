@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2004-2016 Jaroslaw Kowalski <jaak@jkowalski.net>, Kim Christensen, Julian Verdurmen
+// Copyright (c) 2004-2011 Jaroslaw Kowalski <jaak@jkowalski.net>
 // 
 // All rights reserved.
 // 
@@ -108,6 +108,7 @@ namespace NLog.Internal.FileAppenders
             if (this.file == null)
                 return;
             this.file.Write(bytes, 0, bytes.Length);
+            FileTouched();
         }
 
         public override void Close()
@@ -117,6 +118,7 @@ namespace NLog.Internal.FileAppenders
             InternalLogger.Trace("Closing '{0}'", FileName);
             this.file.Close();
             this.file = null;
+            FileTouched();
         }
 
         public override void Flush()
@@ -124,10 +126,21 @@ namespace NLog.Internal.FileAppenders
             // do nothing, the stream is always flushed
         }
 
-        public override FileCharacteristics GetFileCharacteristics()
+        public override bool GetFileInfo(out DateTime lastWriteTime, out long fileLength)
         {
-            FileInfo fileInfo = new FileInfo(FileName);
-            return fileInfo.Exists ? new FileCharacteristics(fileInfo.CreationTime, fileInfo.LastWriteTime, fileInfo.Length) : null;
+            FileInfo fi = new FileInfo(FileName);
+            if (fi.Exists)
+            {
+                fileLength = fi.Length;
+                lastWriteTime = fi.LastWriteTime;
+                return true;
+            }
+            else
+            {
+                fileLength = -1;
+                lastWriteTime = DateTime.MinValue;
+                return false;
+            }
         }
     }
 }

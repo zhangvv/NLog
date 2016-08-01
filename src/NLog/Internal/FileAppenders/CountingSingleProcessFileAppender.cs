@@ -31,6 +31,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using System;
 using System.Security;
 
 namespace NLog.Internal.FileAppenders
@@ -62,15 +63,15 @@ namespace NLog.Internal.FileAppenders
             if (fileInfo.Exists)
             {
 #if !SILVERLIGHT
-                FileTouched(fileInfo.LastWriteTimeUtc);
+                this.FileTouched(fileInfo.LastWriteTimeUtc);
 #else
-                FileTouched(fileInfo.LastWriteTime);
+                this.FileTouched(fi.LastWriteTime);
 #endif
                 this.currentFileLength = fileInfo.Length;
             }
             else
             {
-                FileTouched();
+                this.FileTouched();
                 this.currentFileLength = 0;
             }
 
@@ -90,6 +91,19 @@ namespace NLog.Internal.FileAppenders
         }
 
         /// <summary>
+        /// Gets the file info.
+        /// </summary>
+        /// <param name="lastWriteTime">The last file write time. The value must be of UTC kind.</param>
+        /// <param name="fileLength">Length of the file in bytes.</param>
+        /// <returns>True if the operation succeeded, false otherwise.</returns>
+        public override bool GetFileInfo(out DateTime lastWriteTime, out long fileLength)
+        {
+            lastWriteTime = this.LastWriteTime;
+            fileLength = this.currentFileLength;
+            return true;
+        }
+
+        /// <summary>
         /// Flushes this current appender.
         /// </summary>
         public override void Flush()
@@ -100,17 +114,9 @@ namespace NLog.Internal.FileAppenders
             }
 
             this.file.Flush();
-            FileTouched();
+            this.FileTouched();
         }
 
-        /// <summary>
-        /// Gets the file info.
-        /// </summary>
-        /// <returns>The file characteristics, if the file information was retrieved successfully, otherwise null.</returns>
-        public override FileCharacteristics GetFileCharacteristics()
-        {
-            return new FileCharacteristics(this.CreationTime, this.LastWriteTime, this.currentFileLength);
-        }
 
         /// <summary>
         /// Writes the specified bytes to a file.
@@ -125,7 +131,7 @@ namespace NLog.Internal.FileAppenders
 
             this.currentFileLength += bytes.Length;
             this.file.Write(bytes, 0, bytes.Length);
-            FileTouched();
+            this.FileTouched();
         }
 
         /// <summary>

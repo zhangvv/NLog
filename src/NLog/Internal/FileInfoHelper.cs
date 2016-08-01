@@ -34,36 +34,42 @@
 namespace NLog.Internal
 {
     using System;
+    using NLog.Config;
 
     /// <summary>
-    /// An immutable object that stores basic file info.
+    /// Optimized routines to get the size and last write time of the specified file.
     /// </summary>
-    internal class FileCharacteristics
+    internal abstract class FileInfoHelper
     {
         /// <summary>
-        /// Constructs a FileCharacteristics object.
+        /// Initializes static members of the FileInfoHelper class.
         /// </summary>
-        /// <param name="creationTimeUtc">The time the file was created in UTC.</param>
-        /// <param name="lastWriteTimeUtc">The time the file was last written to in UTC.</param>
-        /// <param name="fileLength">The size of the file in bytes.</param>
-        public FileCharacteristics(DateTime creationTimeUtc, DateTime lastWriteTimeUtc, long fileLength)
+        static FileInfoHelper()
         {
-            CreationTimeUtc = creationTimeUtc;
-            LastWriteTimeUtc = lastWriteTimeUtc;
-            FileLength = fileLength;
+#if SILVERLIGHT
+            Helper = new PortableFileInfoHelper();
+#else
+            if (PlatformDetector.IsDesktopWin32)
+            {
+                Helper = new Win32FileInfoHelper();
+            }
+            else
+            {
+                Helper = new PortableFileInfoHelper();
+            }
+#endif
         }
 
+        internal static FileInfoHelper Helper { get; private set; }
+
         /// <summary>
-        /// The time the file was created in UTC.
+        /// Gets the information about a file.
         /// </summary>
-        public DateTime CreationTimeUtc { get; private set; }
-        /// <summary>
-        /// The time the file was last written to in UTC.
-        /// </summary>
-        public DateTime LastWriteTimeUtc { get; private set; }
-        /// <summary>
-        /// The size of the file in bytes.
-        /// </summary>
-        public long FileLength { get; private set; }
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="fileHandle">The file handle.</param>
+        /// <param name="lastWriteTime">The last write time of the file in UTC.</param>
+        /// <param name="fileLength">Length of the file.</param>
+        /// <returns>A value of <c>true</c> if file information was retrieved successfully, <c>false</c> otherwise.</returns>
+        public abstract bool GetFileInfo(string fileName, IntPtr fileHandle, out DateTime lastWriteTime, out long fileLength);
     }
 }

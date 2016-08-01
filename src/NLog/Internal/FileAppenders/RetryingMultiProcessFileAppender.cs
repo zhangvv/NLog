@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2004-2016 Jaroslaw Kowalski <jaak@jkowalski.net>, Kim Christensen, Julian Verdurmen
+// Copyright (c) 2004-2011 Jaroslaw Kowalski <jaak@jkowalski.net>
 // 
 // All rights reserved.
 // 
@@ -89,20 +89,30 @@ namespace NLog.Internal.FileAppenders
         /// <summary>
         /// Gets the file info.
         /// </summary>
-        /// <returns>The file characteristics, if the file information was retrieved successfully, otherwise null.</returns>
-        public override FileCharacteristics GetFileCharacteristics()
+        /// <param name="lastWriteTime">The last file write time. The value must be of UTC kind.</param>
+        /// <param name="fileLength">Length of the file.</param>
+        /// <returns>
+        /// True if the operation succeeded, false otherwise.
+        /// </returns>
+        public override bool GetFileInfo(out DateTime lastWriteTime, out long fileLength)
         {
-            FileInfo fileInfo = new FileInfo(FileName);
-            if (fileInfo.Exists)
+            FileInfo fi = new FileInfo(FileName);
+            if (fi.Exists)
             {
+                fileLength = fi.Length;
 #if !SILVERLIGHT
-                return new FileCharacteristics(fileInfo.CreationTimeUtc, fileInfo.LastWriteTimeUtc, fileInfo.Length);
+                lastWriteTime = fi.LastWriteTimeUtc;
 #else
-                return new FileCharacteristics(fileInfo.CreationTime, fileInfo.LastWriteTime, fileInfo.Length);
+                lastWriteTime = fi.LastWriteTime;
 #endif
+                return true;
             }
             else
-                return null;
+            {
+                fileLength = -1;
+                lastWriteTime = DateTime.MinValue;
+                return false;
+            }
         }
 
         /// <summary>

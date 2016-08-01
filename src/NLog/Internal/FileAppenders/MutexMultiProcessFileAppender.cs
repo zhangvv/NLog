@@ -1,5 +1,5 @@
 // 
-// Copyright (c) 2004-2016 Jaroslaw Kowalski <jaak@jkowalski.net>, Kim Christensen, Julian Verdurmen
+// Copyright (c) 2004-2011 Jaroslaw Kowalski <jaak@jkowalski.net>
 // 
 // All rights reserved.
 // 
@@ -61,7 +61,7 @@ namespace NLog.Internal.FileAppenders
     {
         public static readonly IFileAppenderFactory TheFactory = new Factory();
 
-        private FileStream fileStream;
+        private FileStream file;
         private Mutex mutex;
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace NLog.Internal.FileAppenders
             try
             {
                 this.mutex = CreateSharableMutex(GetMutexName(fileName));
-                this.fileStream = CreateFileStream(true);
+                this.file = CreateFileStream(true);
             }
             catch
             {
@@ -84,10 +84,10 @@ namespace NLog.Internal.FileAppenders
                     this.mutex = null;
                 }
 
-                if (this.fileStream != null)
+                if (this.file != null)
                 {
-                    this.fileStream.Close();
-                    this.fileStream = null;
+                    this.file.Close();
+                    this.file = null;
                 }
 
                 throw;
@@ -118,9 +118,9 @@ namespace NLog.Internal.FileAppenders
 
             try
             {
-                this.fileStream.Seek(0, SeekOrigin.End);
-                this.fileStream.Write(bytes, 0, bytes.Length);
-                this.fileStream.Flush();
+                this.file.Seek(0, SeekOrigin.End);
+                this.file.Write(bytes, 0, bytes.Length);
+                this.file.Flush();
                 FileTouched();
             }
             finally
@@ -140,13 +140,13 @@ namespace NLog.Internal.FileAppenders
                 this.mutex.Close();
             }
 
-            if (this.fileStream != null)
+            if (this.file != null)
             {
-                this.fileStream.Close();
+                this.file.Close();
             }
 
             this.mutex = null;
-            this.fileStream = null;
+            this.file = null;
             FileTouched();
         }
 
@@ -161,11 +161,15 @@ namespace NLog.Internal.FileAppenders
         /// <summary>
         /// Gets the file info.
         /// </summary>
-        /// <returns>The file characteristics, if the file information was retrieved successfully, otherwise null.</returns>
+        /// <param name="lastWriteTime">The last file write time. The value must be of UTC kind.</param>
+        /// <param name="fileLength">Length of the file.</param>
+        /// <returns>
+        /// True if the operation succeeded, false otherwise.
+        /// </returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Runtime.InteropServices.SafeHandle.DangerousGetHandle", Justification = "Optimization")]
-        public override FileCharacteristics GetFileCharacteristics()
+        public override bool GetFileInfo(out DateTime lastWriteTime, out long fileLength)
         {
-            return FileCharacteristicsHelper.Helper.GetFileCharacteristics(FileName, this.fileStream.SafeFileHandle.DangerousGetHandle());
+            return FileInfoHelper.Helper.GetFileInfo(FileName, this.file.SafeFileHandle.DangerousGetHandle(), out lastWriteTime, out fileLength);
         }
 
         private static Mutex CreateSharableMutex(string name)

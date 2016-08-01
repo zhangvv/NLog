@@ -105,8 +105,6 @@ namespace NLog.UnitTests
 
             public override DateTime Time { get { return ConvertToKind(sourceTime); } }
 
-            public DateTime SystemTime { get { return ConvertToKind(sourceTime - systemTimeDelta); } }
-
             public override DateTime FromSystemTime(DateTime systemTime)
             {
                 return ConvertToKind(systemTime + systemTimeDelta);
