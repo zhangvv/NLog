@@ -72,6 +72,15 @@ namespace NLog.Targets
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="LogReceiverWebServiceTarget"/> class.
+        /// </summary>
+        /// <param name="name">Name of the target.</param>
+        public LogReceiverWebServiceTarget(string name) : this()
+        {
+            this.Name = name;
+        }
+
+        /// <summary>
         /// Gets or sets the endpoint address.
         /// </summary>
         /// <value>The endpoint address.</value>
@@ -392,10 +401,17 @@ namespace NLog.Targets
 
         private void ClientOnProcessLogMessagesCompleted(object sender, AsyncCompletedEventArgs asyncCompletedEventArgs)
         {
-            var client = sender as WcfLogReceiverClient;
+            var client = sender as IWcfLogReceiverClient;
             if (client != null && client.State == CommunicationState.Opened)
             {
-                client.CloseCommunicationObject();
+                try
+                {
+                    client.Close();
+                }
+                catch
+                {
+                    client.Abort();
+                }
             }
         }
 #endif

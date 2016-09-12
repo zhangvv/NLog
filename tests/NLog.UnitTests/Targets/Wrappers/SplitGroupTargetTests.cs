@@ -121,6 +121,22 @@ namespace NLog.UnitTests.Targets.Wrappers
             Assert.Equal(1, myTarget3.FlushCount);
         }
 
+
+        [Fact]
+        public void SplitGroupToStringTest()
+        {
+            var myTarget1 = new MyTarget();
+            var myTarget2 = new FileTarget("file1");
+            var myTarget3 = new ConsoleTarget("Console2");
+
+            var wrapper = new SplitGroupTarget()
+            {
+                Targets = { myTarget1, myTarget2, myTarget3 },
+            };
+
+            Assert.Equal("SplitGroup Target[(unnamed)](MyTarget, File Target[file1], Console Target[Console2])", wrapper.ToString());
+        }
+
         [Fact]
         public void SplitGroupSyncTest2()
         {
@@ -158,6 +174,15 @@ namespace NLog.UnitTests.Targets.Wrappers
         {
             public int FlushCount { get; private set; }
             public int WriteCount { get; private set; }
+
+            public MyAsyncTarget() : base()
+            {
+            }
+
+            public MyAsyncTarget(string name) : this()
+            {
+                this.Name = name;
+            }
 
             protected override void Write(LogEventInfo logEvent)
             {
@@ -199,6 +224,11 @@ namespace NLog.UnitTests.Targets.Wrappers
             public MyTarget()
             {
                 this.WrittenEvents = new List<LogEventInfo>();
+            }
+
+            public MyTarget(string name) : this()
+            {
+                this.Name = name;
             }
 
             public int FlushCount { get; set; }

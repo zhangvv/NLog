@@ -90,6 +90,15 @@ namespace NLog.Targets
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="EventLogTarget"/> class.
+        /// </summary>
+        /// <param name="name">Name of the target.</param>
+        public EventLogTarget(string name) : this(AppDomainWrapper.CurrentDomain)
+        {
+            this.Name = name;
+        }
+
+        /// <summary>
         /// Gets or sets the name of the machine on which Event Log service is running.
         /// </summary>
         /// <docgen category='Event Log Options' order='10' />
@@ -340,7 +349,15 @@ namespace NLog.Targets
         /// <returns></returns>
         private EventLog GetEventLog(LogEventInfo logEvent)
         {
-            return eventLogInstance ?? (eventLogInstance = new EventLog(this.Log, this.MachineName, this.Source.Render(logEvent)));
+            var renderedSource = this.Source != null ? this.Source.Render(logEvent) : null;
+            var isCacheUpToDate = eventLogInstance != null && renderedSource == eventLogInstance.Source &&
+                                   eventLogInstance.Log == this.Log && eventLogInstance.MachineName == this.MachineName;
+
+            if (!isCacheUpToDate)
+            {
+                eventLogInstance = new EventLog(this.Log, this.MachineName, renderedSource);
+            }
+            return eventLogInstance;
         }
 
         /// <summary>

@@ -35,6 +35,7 @@ namespace NLog.Internal.FileAppenders
 {
     using System;
     using System.IO;
+    using System.Threading;
 
     /// <summary>
     /// Maintains a collection of file appenders usually associated with file targets.
@@ -44,8 +45,8 @@ namespace NLog.Internal.FileAppenders
         private BaseFileAppender[] appenders;
 #if !SILVERLIGHT && !__IOS__ && !__ANDROID__
         private string archiveFilePatternToWatch = null;
-        private bool logFileWasArchived = false;
         private readonly MultiFileWatcher externalFileArchivingWatcher = new MultiFileWatcher(NotifyFilters.FileName);
+        private bool logFileWasArchived = false;
 #endif
 
         /// <summary>
@@ -207,36 +208,16 @@ namespace NLog.Internal.FileAppenders
 #if !SILVERLIGHT && !__IOS__ && !__ANDROID__
                 if (!string.IsNullOrEmpty(archiveFilePatternToWatch))
                 {
-                    var archiveFilePatternToWatchPath = GetFullPathForPattern(archiveFilePatternToWatch);
-
-                    string directoryPath = Path.GetDirectoryName(archiveFilePatternToWatchPath);
+                    string directoryPath = Path.GetDirectoryName(archiveFilePatternToWatch);
                     if (!Directory.Exists(directoryPath))
                         Directory.CreateDirectory(directoryPath);
 
-                    externalFileArchivingWatcher.Watch(archiveFilePatternToWatchPath);
+                    externalFileArchivingWatcher.Watch(archiveFilePatternToWatch);
                 }
 #endif
             }
 
             return appenderToWrite;
-        }
-
-        /// <summary>
-        /// Get fullpath for a relative file pattern,  e.g *.log 
-        /// <see cref="Path.GetFullPath"/> crashes on patterns: ArgumentException: Illegal characters in path.
-        /// </summary>
-        /// <param name="pattern"></param>
-        /// <returns></returns>
-        private static string GetFullPathForPattern(string pattern)
-        {
-            string filePattern = Path.GetFileName(pattern);
-            string dir = pattern.Substring(0, pattern.Length - filePattern.Length);
-            // Get absolute path (root+relative)
-            if (string.IsNullOrEmpty(dir))
-            {
-                dir = ".";
-            }
-            return  Path.Combine(Path.GetFullPath(dir), filePattern);
         }
 
         /// <summary>
@@ -306,12 +287,7 @@ namespace NLog.Internal.FileAppenders
             }
         }
 
-        /// <summary>
-        /// Gets the file info for a particular appender.
-        /// </summary>
-        /// <param name="fileName">The file name associated with a particular appender.</param>
-        /// <returns>The file characteristics, if the file information was retrieved successfully, otherwise null.</returns>
-        public FileCharacteristics GetFileCharacteristics(string fileName)
+        private BaseFileAppender GetAppender(string fileName)
         {
             foreach (BaseFileAppender appender in appenders)
             {
@@ -319,17 +295,73 @@ namespace NLog.Internal.FileAppenders
                     break;
 
                 if (appender.FileName == fileName)
-                    return appender.GetFileCharacteristics();
+                    return appender;
             }
 
             return null;
         }
 
+        public DateTime? GetFileCreationTimeUtc(string filePath, bool fallback)
+        {
+            var appender = GetAppender(filePath);
+            DateTime? result = null;
+            if (appender != null)
+                result = appender.GetFileCreationTimeUtc();
+            if (result == null && fallback)
+            {
+                var fileInfo = new FileInfo(filePath);
+                if (fileInfo.Exists)
+                {
+                    return fileInfo.GetCreationTimeUtc();
+                }
+            }
+
+            return result;
+        }
+
+        public DateTime? GetFileLastWriteTimeUtc(string filePath, bool fallback)
+        {
+            var appender = GetAppender(filePath);
+            DateTime? result = null;
+            if (appender != null)
+                result = appender.GetFileLastWriteTimeUtc();
+            if (result == null && fallback)
+            {
+                var fileInfo = new FileInfo(filePath);
+                if (fileInfo.Exists)
+                {
+                    return fileInfo.GetLastWriteTimeUtc();
+                }
+            }
+
+            return result;
+        }
+
+        public long? GetFileLength(string filePath, bool fallback)
+        {
+            var appender = GetAppender(filePath);
+            long? result = null;
+            if (appender != null)
+                result = appender.GetFileLength();
+            if (result == null && fallback)
+            {
+                var fileInfo = new FileInfo(filePath);
+                if (fileInfo.Exists)
+                {
+                    return fileInfo.Length;
+                }
+            }
+
+            return result;
+        }
+
+
+
         /// <summary>
         /// Closes the specified appender and removes it from the list. 
         /// </summary>
-        /// <param name="fileName">File name of the appender to be closed.</param>
-        public void InvalidateAppender(string fileName)
+        /// <param name="filePath">File name of the appender to be closed.</param>
+        public void InvalidateAppender(string filePath)
         {
             for (int i = 0; i < appenders.Length; ++i)
             {
@@ -338,7 +370,7 @@ namespace NLog.Internal.FileAppenders
                     break;
                 }
 
-                if (appenders[i].FileName == fileName)
+                if (appenders[i].FileName == filePath)
                 {
                     CloseAppender(appenders[i]);
                     for (int j = i; j < appenders.Length - 1; ++j)
