@@ -31,8 +31,6 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System.Data.SqlTypes;
-
 #if !SILVERLIGHT
 
 namespace NLog.UnitTests.Targets
@@ -898,7 +896,7 @@ CREATE TABLE dbo.NLogSqlServerTest (
             Assert.Equal(expected, parameter.DbType);
         }
 
-        [Fact]  
+        [Fact]
         public void GetProviderNameFromAppConfig()
         {
             LogManager.ThrowExceptions = true;
@@ -1526,19 +1524,47 @@ CREATE TABLE dbo.NLogSqlServerTest (
 
         public static class SqlServerTest
         {
+           
+
+            static SqlServerTest()
+            {
+            }
+
             public static string GetConnectionString()
             {
                 var connectionString = ConfigurationManager.AppSettings["SqlServerTestConnectionString"];
                 if (String.IsNullOrWhiteSpace(connectionString))
                 {
-                    connectionString = @"Data Source=(localdb)\MSSQLLocalDB; Database=NLogTest; Integrated Security=True;";
+                    connectionString = IsAppVeyor() ? AppVeyorConnectionStringNLogTest : LocalConnectionStringNLogTest;
                 }
                 return connectionString;
             }
 
+
+
+            private const string AppVeyorConnectionStringMaster =
+                @"Server=(local)\SQL2012SP1;Database=master;User ID=sa;Password=Password12!";
+
+            private const string AppVeyorConnectionStringNLogTest =
+    @"Server=(local)\SQL2012SP1;Database=NLogTest;User ID=sa;Password=Password12!";
+
+            private const string LocalConnectionStringMaster = @"Data Source=(localdb)\MSSQLLocalDB; Database=master; Integrated Security=True;";
+
+            private const string LocalConnectionStringNLogTest = @"Data Source=(localdb)\MSSQLLocalDB; Database=NLogTest; Integrated Security=True;";
             public static void RecreateDatabase()
             {
-                IssueCommand("CREATE DATABASE NLogTest", @"Data Source=(localdb)\MSSQLLocalDB; Database=master; Integrated Security=True;");
+                var connectionString = GetMasterConnectionString();
+                IssueCommand("CREATE DATABASE NLogTest", connectionString);
+            }
+
+            private static string GetMasterConnectionString()
+            {
+                return IsAppVeyor() ? AppVeyorConnectionStringMaster : LocalConnectionStringMaster;
+            }
+
+            private static bool IsAppVeyor()
+            {
+                return Environment.GetEnvironmentVariable("APPVEYOR").Equals("true", StringComparison.OrdinalIgnoreCase);
             }
 
             public static void IssueCommand(string commandString, string connectionString = null)
@@ -1572,7 +1598,8 @@ CREATE TABLE dbo.NLogSqlServerTest (
 
             public static void DropDatabase()
             {
-                IssueCommand("ALTER DATABASE [NLogTest] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE NLogTest;", @"Data Source=(localdb)\MSSQLLocalDB; Database=master; Integrated Security=True;");
+                var connectionString = GetMasterConnectionString();
+                IssueCommand("ALTER DATABASE [NLogTest] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE NLogTest;", connectionString);
             }
         }
     }
