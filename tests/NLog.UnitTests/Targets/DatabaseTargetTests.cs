@@ -947,6 +947,7 @@ CREATE TABLE dbo.NLogSqlServerTest (
         [InlineData("NLog.UnitTests.Targets.DatabaseTargetTests+MockDbParameter+CustomDbType")]
         public void SetParamTypeShouldThrowExceptionsTest(string dbType)
         {
+
             var target = new DatabaseTarget
             {
                 Name = "notimportant",
