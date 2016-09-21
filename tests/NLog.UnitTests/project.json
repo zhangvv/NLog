@@ -16,7 +16,7 @@
       "target": "project"
     },
     "SampleExtensions": "4.4.0-beta*",
-    "xunit": "2.2.0-beta2-build3300",
+    "xunit":  "2.2.0-beta2-build3300",
     "dotnet-test-xunit": "2.2.0-preview2-build1029"
   },
 
@@ -24,23 +24,23 @@
 
   "frameworks": {
 
-    "netcoreapp1.0": {
-      "dependencies": {
-        "Microsoft.NETCore.App": {
-          "type": "platform",
-          "version": "1.0.0"
-        },
-        // "NLog.Extended": "4.4.0-beta*",
-        //  "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.0",
-        //  "Microsoft.AspNet.WebApi.Owin": "5.2.3",
-        "System.Threading.Tasks.Parallel": "4.0.1",
-        "System.Xml.XDocument": "4.0.11",
-        "System.Data.SqlClient": "4.1.0"
-      },
-      "buildOptions": {
-        "define": [ "XUNIT2", "NET4_5", "NETSTANDARD_1plus", "NETSTANDARD1_3", "ASYNC_SUPPORTED", "UWP10" ]
-      }
-    },
+    //"netcoreapp1.0": {
+    //  "dependencies": {
+    //    "Microsoft.NETCore.App": {
+    //      "type": "platform",
+    //      "version": "1.0.0"
+    //    },
+    //    // "NLog.Extended": "4.4.0-beta*",
+    //    //  "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.0",
+    //    //  "Microsoft.AspNet.WebApi.Owin": "5.2.3",
+    //    "System.Threading.Tasks.Parallel": "4.0.1",
+    //    "System.Xml.XDocument": "4.0.11",
+    //    "System.Data.SqlClient": "4.1.0"
+    //  },
+    //  "buildOptions": {
+    //    "define": [ "XUNIT2", "NET4_5", "NETSTANDARD_1plus", "NETSTANDARD1_3", "ASYNC_SUPPORTED", "UWP10" ]
+    //  }
+    //},
     "net451": {
       "frameworkAssemblies": {
         "System.Runtime": "",
