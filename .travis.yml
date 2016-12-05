@@ -4,8 +4,9 @@ dist: trusty
 addons:
   sonarqube: true
   branches:
-    - master
     - sonarqube
+    - master
+
     
  
 install:
