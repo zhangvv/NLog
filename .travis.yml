@@ -5,8 +5,8 @@ addons:
   sonarqube: true
   branches:
     - master
-    - '*'
-
+    - sonarqube
+ 
 install:
   - nuget restore src/NLog.mono.sln
   - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
