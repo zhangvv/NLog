@@ -4,9 +4,7 @@ dist: trusty
 addons:
   sonarqube: true
   branches:
-    - master
-    - sonarqube.com
-    
+    - *
 
 install:
   - nuget restore src/NLog.mono.sln
