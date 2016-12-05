@@ -3,9 +3,9 @@ solution: src/NLog.mono.sln
 dist: trusty
 addons:
   sonarqube: true
-  branches:
-    - master
-    - sonarqube
+    branches:
+      - master
+      - sonarqube
  
 install:
   - nuget restore src/NLog.mono.sln
