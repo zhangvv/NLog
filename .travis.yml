@@ -2,7 +2,7 @@ language: csharp
 solution: src/NLog.mono.sln
 dist: trusty
 addons:
-  sonarqube: true
+  sonarqube:
     branches:
       - sonarqube
       - master
