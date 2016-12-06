@@ -3,9 +3,9 @@ solution: src/NLog.mono.sln
 dist: trusty
 addons:
   sonarqube: true
-  branches:
-    - sonarqube
-    - master
+    branches:
+      - sonarqube
+      - master
 
     
  
