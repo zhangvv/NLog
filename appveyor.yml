@@ -2,10 +2,20 @@
 version: 5.0.0-beta{build}
 clone_folder: c:\projects\nlog
 build_script:
-  - ps: .\build.ps1
+  - ps: dotnet --version
+  - ps: dotnet restore .\src\NLog\ 
+  - ps: dotnet restore .\src\NLog.Extended\ 
+  - ps: dotnet restore .\src\NLogAutoLoadExtension\ 
+  - ps: dotnet pack .\src\NLog\  --configuration release   -o artifacts
+  - ps: dotnet build .\src\NLog.Extended\  --configuration release 
+  - ps: dotnet build .\src\NLogAutoLoadExtension\  --configuration release 
 
 test_script:
-  - ps: .\run-tests.ps1
+  - ps: dotnet restore .\tests\SampleExtensions\
+  - ps: dotnet restore .\tests\NLog.UnitTests\
+  - ps: dotnet build .\tests\SampleExtensions --configuration release 
+  - ps: dotnet build .\tests\NLog.UnitTests\ --configuration release 
+  - ps: dotnet test .\tests\NLog.UnitTests\  --configuration release
 
 deploy: off
 artifacts:
