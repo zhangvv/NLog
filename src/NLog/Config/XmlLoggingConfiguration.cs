@@ -614,6 +614,16 @@ namespace NLog.Config
                 this.ParseExtensionsElement(extensionsChild, Path.GetDirectoryName(filePath));
             }
 
+            //target/appender elements should be parsed before rule elements, as target elements are referenced by rule elements
+            var targetChilds = children.Where(child => child.LocalName.Equals("TARGETS", StringComparison.InvariantCultureIgnoreCase) || 
+                                                       child.LocalName.Equals("APPENDERS", StringComparison.InvariantCultureIgnoreCase)
+
+                                              ).ToList();
+            foreach (var targetChild in targetChilds)
+            {
+                this.ParseTargetsElement(targetChild);
+            }
+
             //parse all other direct elements
             foreach (var child in children)
             {
@@ -629,7 +639,7 @@ namespace NLog.Config
 
                     case "APPENDERS":
                     case "TARGETS":
-                        this.ParseTargetsElement(child);
+                        //already parsed
                         break;
 
                     case "VARIABLE":
@@ -1128,7 +1138,7 @@ namespace NLog.Config
             {
                 InternalLogger.Error(exception, "Error when including '{0}'.", newFileName);
 
-              
+
                 if (ignoreErrors)
                 {
                     return;
@@ -1139,7 +1149,7 @@ namespace NLog.Config
                     throw;
                 }
 
-               
+
 
                 throw new NLogConfigurationException("Error when including: " + newFileName, exception);
             }
@@ -1166,7 +1176,7 @@ namespace NLog.Config
                 }
 
                 var filename = Path.GetFileName(fileMask);
-                
+
                 if (filename == null)
                 {
                     InternalLogger.Warn("filename is empty for include of '{0}'", fileMask);
